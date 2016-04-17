@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	<!-- 启动注解 -->
+	<context:annotation-config />
+
+
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="url"
+			value="jdbc:mysql://127.0.0.1:3306/db_blog?useUnicode=true&amp;characterEncoding=utf-8" />
+		<property name="username" value="root" />
+		<property name="password" value="123456" />
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<!-- 连接池启动时初始值 -->
+		<property name="initialSize" value="3" />
+		<!-- 连接池最大值 -->
+		<property name="maxActive" value="500" />
+		<!-- 最大空闲值 -->
+		<property name="maxIdle" value="2" />
+		<!-- 最小空闲值 -->
+		<property name="minIdle" value="1" />
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+
+		<!-- 接管Hibernate对象映射文件 -->
+		<property name="mappingResources">
+			<list>
+				<value>com/myblog/domain/User.hbm.xml</value>
+				<value>com/myblog/domain/Critique.hbm.xml</value>
+				<value>com/myblog/domain/Article.hbm.xml</value>
+				<value>com/myblog/domain/Bloginfo.hbm.xml</value>
+				<value>com/myblog/domain/Click.hbm.xml</value>
+			</list>
+		</property>
+
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=org.hibernate.dialect.MySQLDialect
+				hibernate.hbm2ddl.auto=update
+				hibernate.show_sql=true
+				hibernate.format_sql=true
+			</value>
+		</property>
+	</bean>
+
+	<!-- 配置事务管理器，同意管理sessionFactory的事务 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<!-- 启动事务注解 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- 配置service对象 -->
+	<!-- 测试用 -->
+	<!-- 	<bean id="testService" class="com.myblog.test.TestService">
+		<property name="name" value="张三" />
+	</bean> -->
+	<!-- 配置UserService对象，通过注解的方式来注入属性值,spring会启用byName的方式注入属性值 -->
+	<bean id="userService" class="com.myblog.service.impl.UserService" />
+
+
+	<!-- 配置action -->
+	<!-- 配置登录action -->
+	<bean name="/login" class="com.myblog.web.struts.action.LoginAction" scope="prototype" />
+
+</beans>

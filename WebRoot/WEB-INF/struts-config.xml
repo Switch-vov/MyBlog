@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+<struts-config>
+	<form-beans>
+		<!-- 配置用户信息表单 -->
+    	<form-bean name="userForm" type="com.myblog.web.struts.form.UserForm" />
+	</form-beans>
+	
+	<!-- 配置全局跳转 -->
+	<global-forwards>
+		<forward name="opererr" path="/WEB-INF/public/err.jsp"></forward>
+		<forward name="operok" path="/WEB-INF/public/ok.jsp"></forward>
+	</global-forwards>
+	
+	<action-mappings>
+		<!-- 配置登录action -->
+	    <action
+      attribute="userForm"
+      input="/WEB-INF/public/register.jsp"
+      name="userForm"
+      parameter="type"
+      path="/login"
+      scope="request"
+      type="com.myblog.web.struts.action.LoginAction"
+      validate="false"
+      cancellable="true">
+      <forward name="loginerr" path="/WEB-INF/public/login.jsp" />
+      <forward name="gotoMainUI" path="/index.jsp" />
+      <forward name="gotoRegister" path="/WEB-INF/public/register.jsp" />
+      <forward name="gotoLogin" path="/WEB-INF/public/login.jsp" />
+      <forward name="registererr" path="/WEB-INF/public/register.jsp" />
+      <forward name="gotoUserUI" path="/userBlog.do?type=gotoUserUI" />
+      
+      
+    </action>
+    <action
+      parameter="type"
+      path="/userBlog"
+      type="com.myblog.web.struts.action.UserBlogAction"
+      validate="false"
+      cancellable="true" >
+      <forward name="gotoUserUI" path="/WEB-INF/user/userMainUI.jsp" />
+    </action>
+
+
+	</action-mappings>
+
+	<!-- 配置代理请求处理DelegatingRequestProcessor -->
+	<controller>
+		<set-property property="processorClass"
+			value="org.springframework.web.struts.DelegatingRequestProcessor" />
+	</controller>
+</struts-config>

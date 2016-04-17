@@ -10,6 +10,7 @@ import org.hibernate.SessionFactory;
 import com.myblog.basic.BasicService;
 import com.myblog.domain.User;
 import com.myblog.service.inter.UserServiceInter;
+
 import static com.myblog.tools.MD5.createMD5;;
 
 public class UserService extends BasicService implements UserServiceInter{
@@ -55,6 +56,13 @@ public class UserService extends BasicService implements UserServiceInter{
 	@Override
 	public List<User> getAllUser() {
 		return this.getAll("User");
+	}
+
+	@Override
+	public User getUserByUserName(String userName) {
+		String hql = "from User where userName=?";
+		String[] parameters = {userName};
+		return (User) this.executeUniqueQuery(hql, parameters);
 	}
 	
 }

@@ -70,10 +70,17 @@
 	</bean> -->
 	<!-- 配置UserService对象，通过注解的方式来注入属性值,spring会启用byName的方式注入属性值 -->
 	<bean id="userService" class="com.myblog.service.impl.UserService" />
-
-
+	<!-- 配置 blogInfoService对象，注解注入-->
+	<bean id="blogInfoService" class="com.myblog.service.impl.BlogInfoService"/>
+	<!-- 配置 articleService对象，注解注入-->
+	<bean id="articleService" class="com.myblog.service.impl.ArticleService" />
+	
 	<!-- 配置action -->
-	<!-- 配置登录action -->
+	<!-- 配置登录action，注解注入 -->
 	<bean name="/login" class="com.myblog.web.struts.action.LoginAction" scope="prototype" />
+	<!-- 配置用户博客action，注解注入 -->
+	<bean name="/userBlog" class="com.myblog.web.struts.action.UserBlogAction" scope="prototype" />
+	<!-- 配置忘记密码action，注解注入 -->
+	<bean name="/forgetPassword" class="com.myblog.web.struts.action.ForgetPasswordAction" scope="prototype"/>
 
 </beans>

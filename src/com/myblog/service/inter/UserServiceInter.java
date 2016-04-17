@@ -41,4 +41,13 @@ public interface UserServiceInter extends BasicServiceInter{
 	 * @return 用户List
 	 */
 	public List<User> getAllUser();
+	
+	/**
+	 * 
+	 * @author Switch
+	 * @function 通过用户名获取用户信息
+	 * @param userName
+	 * @return User对象
+	 */
+	public User getUserByUserName(String userName);
 }

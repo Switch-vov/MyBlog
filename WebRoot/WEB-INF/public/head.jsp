@@ -13,13 +13,13 @@
 						class="icon-bar"></span><span class="icon-bar"></span><span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">MyBlog</a>
+				<a class="navbar-brand" href="${pageContext.request.contextPath }">MyBlog</a>
 			</div>
 
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">首页</a></li>
+					<li class="active"><a href="${pageContext.request.contextPath }">首页</a></li>
 					<li><a href="#">博客列表</a></li>
 					<li class="dropdown" id="drop"><a href="#"
 						class="dropdown-toggle" onclick="dropclick()">友情链接<strong
@@ -56,7 +56,7 @@
 					<%-- if user login --%>
 					<c:if test="${!empty loginUserInfo}">
 						<li>
-							<a href="#">${loginUserInfo.nickName }</a>
+							<a href="${pageContext.request.contextPath }/userBlog.do?type=gotoUserUI&userName=${loginUserInfo.userName }">${loginUserInfo.nickName }</a>
 						</li>
 						<li>
 							<a href="${pageContext.request.contextPath }/login.do?type=logout">注销？</a>
@@ -66,11 +66,11 @@
 								<strong class="caret"></strong>
 							</a>
 							<ul class="dropdown-menu">
-								<li><a href="#">我的主页</a></li>
+								<li><a href="${pageContext.request.contextPath }/userBlog.do?type=gotoUserUI&userName=${loginUserInfo.userName }">我的主页</a></li>
 								<li><a href="#">修改信息</a></li>
 								<li><a href="#">忘记密码</a></li>
 								<li class="divider"></li>
-								<li><a href="#">待实现功能</a></li>
+								<li><a href="#">写博客</a></li>
 							</ul>
 						</li>
 					</c:if>

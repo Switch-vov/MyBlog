@@ -19,7 +19,7 @@ public class LoginAction extends DispatchAction {
 	// 提供用户服务
 	@Resource
 	private UserServiceInter userService;
-	public void setUserServiceInter(UserServiceInter userService) {
+	public void setUserService(UserServiceInter userService) {
 		this.userService = userService;
 	}
 
@@ -77,7 +77,7 @@ public class LoginAction extends DispatchAction {
 			return mapping.findForward("loginerr");
 		}
 	}
-
+	
 	
 	public ActionForward gotoLogin(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
@@ -110,7 +110,20 @@ public class LoginAction extends DispatchAction {
 		user.setUserName(userForm.getUserName());
 		user.setPassword(userForm.getPassword());
 		user.setNickName(userForm.getNickName());
-		user.setQuestion(userForm.getQuestion());
+		
+		String question = userForm.getQuestion();
+		if ("mother".equals(question)) {
+			user.setQuestion("您母亲的名字是？");
+		} else if ("father".equals(question)) {
+			user.setQuestion("您父亲的名字是？");
+		} else if ("lover".equals(question)) {
+			user.setQuestion("您爱人的名字是？");
+		} else if ("name".equals(question)) {
+			user.setQuestion("您的名字是？");
+		} else if ("birth".equals(question)) {
+			user.setQuestion("您的出生年月是？");
+		}
+		
 		user.setAnswer(userForm.getAnswer());
 		
 		// 测试表单数据是否填入表单对象(成功)

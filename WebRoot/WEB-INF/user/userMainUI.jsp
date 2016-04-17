@@ -1,4 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +8,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Bootstrap 3, from LayoutIt!</title>
+<title>${visitUserInfo.nickName }的博客</title>
 <link href="${pageContext.request.contextPath }/resource/css/bootstrap.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath }/resource/css/style.css" rel="stylesheet">
 </head>
@@ -24,13 +26,13 @@
 						<div class="page-header">
 							<br/>
 							<h1 style="color:white;">
-								Switch的博客
+								${visitUserInfo.nickName }的博客
 							</h1>
 						</div>
 						<p class="text-left text-muted" style="font-size:22px;color:#00ff7f">
 							&nbsp;&nbsp;&nbsp;&nbsp;
 							&nbsp;&nbsp;&nbsp;&nbsp;
-							这里是个性签名。
+							${visitBlogInfo.idiograph }
 						</p>
 					</div>
 				</div>
@@ -43,6 +45,11 @@
 							<button class="btn btn-default" type="button">
 								<em class="glyphicon glyphicon-align-center"></em> 摘要视图
 							</button>
+							<c:if test="${loginUserInfo.userName == visitUserInfo.userName}">
+								<button class="btn btn-default" type="button">
+									<em class="glyphicon glyphicon-align-right"></em> 写博客
+								</button>
+							</c:if>
 						</div>
 					</div>
 				</div>
@@ -56,15 +63,15 @@
 								src="http://lorempixel.com/140/140/" class="img-thumbnail">
 								<br/>
 								<span>
-									<strong>用户名</strong>
+									<strong>${visitUserInfo.userName }</strong>
 								</span>
 							</div>
 							<br/>
 							<div style="width: 100%;">
 								<div style="text-align: left;line-height:20px; position:relative;left:30px; width: 70%;">
-									<p>访问：10000次</p>
-									<p>博客：10000篇</p>
-									<p>评论：10000条</p>
+									<p>访问：${visitClickCount }次</p>
+									<p>博客：${visitArticleCount }篇</p>
+									<p>评论：${visitCritiqueCount }条</p>
 								</div>
 							</div>
 							<br/>
@@ -80,44 +87,61 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td>TB - Monthly</td>
-											<td style="text-align: right;">Default</td>
-										</tr>
-										<tr class="active">
-											<td>TB - Monthly</td>
-											<td style="text-align: right;">Approved</td>
-										</tr>
-										<tr class="success">
-											<td>TB - Monthly</td>
-											<td style="text-align: right;">Declined</td>
-										</tr>
-										<tr class="warning">
-											<td>TB - Monthly</td>
-											<td style="text-align: right;">Pending</td>
-										</tr>
-										<tr class="danger">
-											<td>TB - Monthly</td>
-											<td style="text-align: right;">Call in to confirm</td>
-										</tr>
+										<c:forEach var="article" items="${visitArticleInfo }" varStatus="status">
+											<c:choose>
+												<c:when test="${(status.index % 5) == 0}">
+													<tr>
+														<td>${article.title }</td>
+														<td style="text-align: right;">${article.date } 阅读(${fn:length(article.clicks) }) 评论(${fn:length(article.critiques) })</td>
+													</tr>
+												</c:when>
+												<c:when test="${(status.index % 5) == 1}">
+													<tr class="active">
+														<td>${article.title }</td>
+														<td style="text-align: right;">${article.date } 阅读(${fn:length(article.clicks) }) 评论(${fn:length(article.critiques) })</td>
+													</tr>
+												</c:when>
+												<c:when test="${(status.index % 5) == 2}">
+													<tr class="success">
+														<td>${article.title }</td>
+														<td style="text-align: right;">${article.date } 阅读(${fn:length(article.clicks) }) 评论(${fn:length(article.critiques) })</td>
+													</tr>
+												</c:when>
+												<c:when test="${(status.index % 5) == 3}">
+													<tr class="warning">
+														<td>${article.title }</td>
+														<td style="text-align: right;">${article.date } 阅读(${fn:length(article.clicks) }) 评论(${fn:length(article.critiques) })</td>
+													</tr>
+												</c:when>
+												<c:when test="${(status.index % 5) == 4}">
+													<tr class="danger">
+														<td>${article.title }</td>
+														<td style="text-align: right;">${article.date } 阅读(${fn:length(article.clicks) }) 评论(${fn:length(article.critiques) })</td>
+													</tr>
+												</c:when>
+											</c:choose>
+										</c:forEach>
 									</tbody>
 								</table>
 							</div>
 							<div  style="text-align: center;">
 								<ul class="pagination pagination-sm">
-									<li><a href="#">Prev</a></li>
-									<li><a href="#">1</a></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#">3</a></li>
-									<li><a href="#">4</a></li>
-									<li><a href="#">5</a></li>
-									<li><a href="#">Next</a></li>
+									<c:if test="${pageNow != 1 }">
+										<li><a href="${pageContext.request.contextPath }/userBlog.do?type=page&userName=${visitUserInfo.userName }&pageNow=1">首页</a></li>
+										<li><a href="${pageContext.request.contextPath }/userBlog.do?type=page&userName=${visitUserInfo.userName }&pageNow=${pageNow - 1 }">上一页</a></li>
+									</c:if>
+									<c:forEach var="i" begin="1" end="${pageCount }" step="1">
+										<li><a href="${pageContext.request.contextPath }/userBlog.do?type=page&userName=${visitUserInfo.userName }&pageNow=${i }">${i }</a></li>
+									</c:forEach>
+									<c:if test="${pageNow != pageCount }">
+										<li><a href="${pageContext.request.contextPath }/userBlog.do?type=page&userName=${visitUserInfo.userName }&pageNow=${pageNow + 1 }">下一页</a></li>
+										<li><a href="${pageContext.request.contextPath }/userBlog.do?type=page&userName=${visitUserInfo.userName }&pageNow=${pageCount }">尾页</a></li>
+									</c:if>
 								</ul>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 			<div class="col-md-1"></div>
 		</div>
 		

@@ -41,6 +41,23 @@
       cancellable="true" >
       <forward name="gotoUserUI" path="/WEB-INF/user/userMainUI.jsp" />
     </action>
+    <action
+      attribute="userForm"
+      input="/WEB-INF/public/register.jsp"
+      name="userForm"
+      parameter="type"
+      path="/forgetPassword"
+      scope="request"
+      type="com.myblog.web.struts.action.ForgetPasswordAction"
+      validate="false"
+      cancellable="true" >
+      <forward name="gotoForgetPassword" path="/WEB-INF/user/forgetPassword.jsp" />
+      <forward name="gotoFindPassword" path="/WEB-INF/user/findPassword.jsp" />
+      <forward name="modifyPasswordOk" path="/WEB-INF/public/login.jsp" />
+      
+      
+    </action>
+
 
 
 	</action-mappings>

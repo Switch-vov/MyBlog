@@ -10,6 +10,7 @@
 	<global-forwards>
 		<forward name="opererr" path="/WEB-INF/public/err.jsp"></forward>
 		<forward name="operok" path="/WEB-INF/public/ok.jsp"></forward>
+    	<forward name="gotoMainUI" path="/index.jsp" />
 	</global-forwards>
 	
 	<action-mappings>
@@ -57,6 +58,29 @@
       
       
     </action>
+    <action
+      input="/WEB-INF/user/userMainUI.jsp"
+      parameter="type"
+      path="/modifyBlogInfo"
+      type="com.myblog.web.struts.action.ModifyBlogInfoAction"
+      validate="false"
+      cancellable="true" >
+      <forward name="gotoModifyInfo" path="/WEB-INF/user/modifyInfo.jsp" />
+      <forward name="modifyInfo" path="/WEB-INF/user/userMainUI.jsp" />
+    </action>
+
+    <action
+      path="/gotoMainUI"
+      type="com.myblog.web.struts.action.GotoMainUIAction"
+      validate="false"
+      cancellable="true" />
+    <action
+      input="/WEB-INF/user/userMainUI.jsp"
+      parameter="type"
+      path="/userArticle"
+      type="com.myblog.web.struts.action.UserArticleAction"
+      validate="false"
+      cancellable="true" />
 
 
 

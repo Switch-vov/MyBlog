@@ -18,69 +18,61 @@ import com.myblog.service.inter.ArticleServiceInter;
 import com.myblog.service.inter.BlogInfoServiceInter;
 import com.myblog.service.inter.UserServiceInter;
 
-public class UserBlogAction extends DispatchAction {
+public class ModifyBlogInfoAction extends DispatchAction {
 	@Resource
-	UserServiceInter userService;
+	private UserServiceInter userService;
 	@Resource
-	BlogInfoServiceInter blogInfoService;
+	private BlogInfoServiceInter blogInfoService;
 	@Resource
-	ArticleServiceInter articleService;
-	
-	public void setUserService(UserServiceInter userService) {
-		this.userService = userService;
-	}
+	private ArticleServiceInter articleService;
 	
 	public void setBlogInfoService(BlogInfoServiceInter blogInfoService) {
 		this.blogInfoService = blogInfoService;
+	}
+
+	public void setUserService(UserServiceInter userService) {
+		this.userService = userService;
 	}
 
 	public void setArticleService(ArticleServiceInter articleService) {
 		this.articleService = articleService;
 	}
 
-	public ActionForward gotoUserUI(ActionMapping mapping, ActionForm form,
+	public ActionForward gotoModifyBlogInfo(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		// get blog username from query string
-		String userName = request.getParameter("userName");
-		// User loginUserInfo = (User) request.getSession().getAttribute("loginUserInfo");
-		if(prepareShowVisitInfo(request, userName, 1, 50)){
-			return mapping.findForward("gotoUserUI");
-		} else {
-			return mapping.findForward("opererr");
-		}
+		return mapping.findForward("gotoModifyInfo");
 	}
 	
-	public ActionForward page(ActionMapping mapping, ActionForm form,
+	public ActionForward modifyInfo(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-		String pageNowString = request.getParameter("pageNow");
-		String userName = request.getParameter("userName");
-		int pageNow = 1;
-		try {
-			pageNow = Integer.parseInt(pageNowString);
-		} catch (Exception e) {
-			if(prepareShowVisitInfo(request, userName, 1, 50)){
-				return mapping.findForward("gotoUserUI");
-			} else {
-				return mapping.findForward("opererr");
-			}
+		String nickName = request.getParameter("nickName");
+		String idiograph = request.getParameter("idiograph");
+		// get parameter (ok)
+		// System.out.println(nickName + " " + idiograph);
+		// nickName length verify
+		if (nickName.length() < 1 || nickName.length() > 20) {
+			request.setAttribute("errinfo", "昵称长度必须为1到20位之间");
+			return mapping.findForward("gotoModifyInfo");
 		}
-		if(pageNow <= 0 || pageNow > articleService.getArticlePageCount(userService.getUserByUserName(userName), 50)) {
-			if(prepareShowVisitInfo(request, userName, 1, 50)){
-				return mapping.findForward("gotoUserUI");
-			} else {
-				return mapping.findForward("opererr");
-			}
-		} else {
-			if(prepareShowVisitInfo(request, userName, pageNow, 50)){
-				return mapping.findForward("gotoUserUI");
-			} else {
-				return mapping.findForward("opererr");
-			}
+		// idiograph length verify 
+		if (idiograph.length() < 1 ||  idiograph.length() > 50) {
+			request.setAttribute("errinfo", "个性签名长度必须为1到50位之间");
+			return mapping.findForward("gotoModifyInfo");
 		}
 		
+		User loginUserInfo = (User) request.getSession().getAttribute("loginUserInfo");
+		loginUserInfo.setNickName(nickName);
+		Bloginfo bloginfo =  blogInfoService.getBlogInfoByUser(loginUserInfo);
+		bloginfo.setIdiograph(idiograph);
+		userService.update(loginUserInfo);
+		
+		prepareShowVisitInfo(request, loginUserInfo.getUserName(), 1, 50);
+		
+		return mapping.findForward("modifyInfo");
 	}
-
+	
+	
 	private boolean prepareShowVisitInfo(HttpServletRequest request,
 			String userName, int pageNow, int pageSize) {
 		// prepare user info

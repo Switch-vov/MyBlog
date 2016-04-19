@@ -82,5 +82,9 @@
 	<bean name="/userBlog" class="com.myblog.web.struts.action.UserBlogAction" scope="prototype" />
 	<!-- 配置忘记密码action，注解注入 -->
 	<bean name="/forgetPassword" class="com.myblog.web.struts.action.ForgetPasswordAction" scope="prototype"/>
+	<!-- 配置修改用户信息action，注解注入 -->
+	<bean name="/modifyBlogInfo" class="com.myblog.web.struts.action.ModifyBlogInfoAction"/>
+	<!-- 配置跳转到首页action -->
+	<bean name="/gotoMainUI" class="com.myblog.web.struts.action.GotoMainUIAction"></bean>
 
 </beans>

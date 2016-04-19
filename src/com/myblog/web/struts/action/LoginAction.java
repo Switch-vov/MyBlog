@@ -14,6 +14,7 @@ import org.apache.struts.actions.DispatchAction;
 import com.myblog.domain.User;
 import com.myblog.service.inter.UserServiceInter;
 import com.myblog.web.struts.form.UserForm;
+import static com.myblog.tools.RegularVerify.verifyOnlyLetterAndNumber;
 
 public class LoginAction extends DispatchAction {
 	// 提供用户服务
@@ -33,13 +34,15 @@ public class LoginAction extends DispatchAction {
 		// 保存信息至Cookie中
 		Cookie jSessionId = new Cookie("JSESSIONID", session.getId());
 		jSessionId.setMaxAge(3600 * 24);
+		response.addCookie(jSessionId);
+		
 		Cookie userName = new Cookie("userName", loginUserInfo.getUserName());
 		userName.setMaxAge(3600 * 24);
-		Cookie password = new Cookie("password", loginUserInfo.getPassword());
-		password.setMaxAge(3600 * 24);
-		response.addCookie(jSessionId);
 		response.addCookie(userName);
-		response.addCookie(password);
+		
+		// Cookie password = new Cookie("password", loginUserInfo.getPassword());
+		// password.setMaxAge(3600 * 24);
+		// response.addCookie(password);
 		
 		// 将用户数据加入Session中，以备后用
 		session.setAttribute("loginUserInfo", loginUserInfo);
@@ -74,6 +77,7 @@ public class LoginAction extends DispatchAction {
 			
 			return mapping.findForward("gotoUserUI");
 		} else {
+			request.setAttribute("errinfo", "账号名或密码输入有误");
 			return mapping.findForward("loginerr");
 		}
 	}
@@ -101,9 +105,12 @@ public class LoginAction extends DispatchAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		UserForm userForm = (UserForm) form;
-		if (!userForm.getPassword().equals(userForm.getRepassword())) {
+		
+		if(!checkUserForm(request, userForm)){
 			return mapping.findForward("registererr");
 		}
+		
+		// 
 		
 		// 构建一个User对象
 		User user = new User();
@@ -130,11 +137,48 @@ public class LoginAction extends DispatchAction {
 		// System.out.println(userForm.getUserName() + " " + userForm.getPassword());
 		if(userService.register(user)) {
 			saveUserToSessionAndCookie(request, response, user);
-			
 			return mapping.findForward("gotoUserUI");
 		} else {
+			request.setAttribute("errinfo", "用户名已存在");
 			return mapping.findForward("registererr");
 		}
+	}
+
+
+
+	private boolean checkUserForm(HttpServletRequest request, UserForm userForm) {
+		// userName length verify
+		if (userForm.getUserName().length() < 1 || userForm.getUserName().length() > 16) { 
+			request.setAttribute("errinfo", "用户名长度必须为1到16位之间");
+			return false;
+		}
+		// userName and password only letter and number
+		if (!verifyOnlyLetterAndNumber(userForm.getUserName())
+				|| !verifyOnlyLetterAndNumber(userForm.getPassword())) {
+			request.setAttribute("errinfo", "用户名或密码只能为数字、字母、下划线且不能以下划线开头");
+			return false;
+		}
+		// password length verify
+		if (userForm.getPassword().length() < 6 || userForm.getPassword().length() > 16) {
+			request.setAttribute("errinfo", "密码长度必须为6到16位之间");
+			return false;
+		}
+		// repassword verity
+		if (!userForm.getPassword().equals(userForm.getRepassword())) {
+			request.setAttribute("errinfo", "两次输入密码密码不一致");
+			return false;
+		}
+		// nickName length verify
+		if (userForm.getNickName().length() < 1 || userForm.getNickName().length() > 20) {
+			request.setAttribute("errinfo", "昵称长度必须为1到20位之间");
+			return false;
+		}
+		// answer length verify
+		if (userForm.getAnswer().length() < 2 || userForm.getAnswer().length() > 30) {
+			request.setAttribute("errinfo", "密保答案长度必须为2到30位之间");
+			return false;
+		}
+		return true;
 	}
 	
 	public ActionForward logout(ActionMapping mapping, ActionForm form,

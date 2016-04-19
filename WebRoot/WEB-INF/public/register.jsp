@@ -34,6 +34,7 @@
 						<div class="col-sm-10" style="width:250px">
 							<input type="text" class="form-control" name="userName">
 						</div>
+						<label style="color: red;">${errinfo }</label>
 					</div>
 					<div class="form-group">
 						 
@@ -65,7 +66,7 @@
 					<div class="form-group">
 						 
 						<label class="col-sm-2 control-label" style="color:white;">
-							密码问题：
+							密保问题：
 						</label>
 						<div class="col-sm-10" style="width:250px">
 							<select name="question" class="form-control">
@@ -79,7 +80,7 @@
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label" style="color:white;">
-							密码答案：
+							密保答案：
 						</label>
 						<div class="col-sm-10" style="width:250px">
 							<input type="text" class="form-control" name="answer">

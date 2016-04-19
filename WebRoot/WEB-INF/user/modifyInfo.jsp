@@ -24,55 +24,50 @@
 			<br/>
 			<br/>
 			<br/>
-			
 			<div class="col-md-3"></div>
 			<div class="col-md-6">
-				<form action="${pageContext.request.contextPath }/login.do?type=login" class="form-horizontal" role="form" method="post">
+				<form action="${pageContext.request.contextPath }/modifyBlogInfo.do?type=modifyInfo" class="form-horizontal" role="form" method="post">
 					<div class="form-group">
 						<label class="col-sm-2 control-label" style="color:white;">
-							用户名：
+							昵称：
 						</label>
 						<div class="col-sm-10" style="width:250px">
-							<input type="text" class="form-control" name="userName">
+							<input type="text" class="form-control" name="nickName">
 						</div>
 						<label style="color: red;">${errinfo }</label>
 					</div>
+					
 					<div class="form-group">
-						<label for="inputPassword3" class="col-sm-2 control-label" style="color:white;">
-							密&nbsp;&nbsp;&nbsp;&nbsp;码：
+						<label class="col-sm-2 control-label" style="color:white;">
+							个性签名：
 						</label>
 						<div class="col-sm-10" style="width:250px">
-							<input type="password" class="form-control" name="password">
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							<div class="checkbox">
-								<label style="color:white;">
-									<input type="checkbox"> 记住我&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								</label>
-								<a style="color:white" href="${pageContext.request.contextPath }/forgetPassword.do?type=gotoForgetPassword">忘记密码？</a>
-							</div>
+							<input type="text" class="form-control" name="idiograph" >
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
 							<button type="submit" class="btn btn-default">
-								登录
+								确定
+							</button>
+							<button type="reset" class="btn btn-default">
+								清空
 							</button>
 						</div>
 					</div>
 				</form>
-				<br/>
 			<br/>
 			<br/>
 			<br/>
 			<br/>
 			<br/>
+			<br/>
+			<br/>
+				
 			</div>
 			<div class="col-md-3"></div>
+			
 		</div>		
-		
 		
 		<%-- 引入页尾 --%>
 		<jsp:include page="/WEB-INF/public/foot.jsp" />

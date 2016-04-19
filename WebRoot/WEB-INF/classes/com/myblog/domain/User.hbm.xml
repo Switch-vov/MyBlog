@@ -31,6 +31,7 @@
             </key>
             <one-to-many class="com.myblog.domain.Article" />
         </set>
+        <!-- 这里需要重构为一对一关系 -->
         <set name="bloginfos" inverse="true" cascade="save-update">
             <key>
                 <column name="userId" not-null="true" unique="true" />

@@ -1,5 +1,6 @@
 package com.myblog.service.impl;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -32,6 +33,15 @@ public class BlogInfoService extends BasicService implements BlogInfoServiceInte
 		//	System.out.println(bloginfo2.getBlogtitle() + " " + bloginfo2.getIdiograph());
 		// }
 		return bloginfo;
+	}
+
+	@Override
+	public Set<Bloginfo> initBlogInfoByUser(User user) {
+		Bloginfo bloginfo = new Bloginfo(user);
+		this.add(bloginfo);
+		Set<Bloginfo> bloginfos = new HashSet<Bloginfo>();
+		bloginfos.add(bloginfo);
+		return bloginfos;
 	}
 
 }

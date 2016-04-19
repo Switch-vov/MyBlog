@@ -2,13 +2,16 @@ package com.myblog.service.impl;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
 import org.hibernate.SessionFactory;
 
 import com.myblog.basic.BasicService;
+import com.myblog.domain.Bloginfo;
 import com.myblog.domain.User;
+import com.myblog.service.inter.BlogInfoServiceInter;
 import com.myblog.service.inter.UserServiceInter;
 
 import static com.myblog.tools.MD5.createMD5;;
@@ -16,10 +19,17 @@ import static com.myblog.tools.MD5.createMD5;;
 public class UserService extends BasicService implements UserServiceInter{
 	@Resource
 	private SessionFactory sessionFactory;
+	@Resource
+	private BlogInfoServiceInter blogInfoService;
+	
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 	
+	public void setBlogInfoService(BlogInfoServiceInter blogInfoService) {
+		this.blogInfoService = blogInfoService;
+	}
+
 	@Override
 	public User getUserById(Serializable id) {
 		return (User) this.findById(User.class, id);
@@ -47,7 +57,9 @@ public class UserService extends BasicService implements UserServiceInter{
 		}
 		// 使用MD5加密密码
 		user.setPassword(createMD5(user.getPassword()));
-		Serializable id = this.add(user);
+		this.add(user);
+		Set<Bloginfo> bloginfos =  blogInfoService.initBlogInfoByUser(user);
+		user.setBloginfos(bloginfos);
 		// 测试获取ID是否成功(成功)
 		// System.out.println(id);			
 		return true;

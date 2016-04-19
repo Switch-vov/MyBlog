@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,7 +34,12 @@
 							您设置的密保问题：
 						</label>
 						<div class="col-sm-10" style="width:250px">
-							<input type="text" disabled="disabled" value="${forgetUser.question }" class="form-control" name="question">
+							<c:if test="${empty loginUserInfo}">
+								<input type="text" disabled="disabled" value="${forgetUser.question }" class="form-control" name="question">
+							</c:if>
+							<c:if test="${!empty  loginUserInfo}">
+								<input type="text" disabled="disabled" value="${loginUserInfo.question }" class="form-control" name="question">
+							</c:if>
 						</div>
 					</div>
 					<div class="form-group">

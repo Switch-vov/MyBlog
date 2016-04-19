@@ -133,10 +133,11 @@
 									<c:forEach var="i" begin="1" end="${pageCount }" step="1">
 										<li><a href="${pageContext.request.contextPath }/userBlog.do?type=page&userName=${visitUserInfo.userName }&pageNow=${i }">${i }</a></li>
 									</c:forEach>
-									<c:if test="${pageNow != pageCount }">
+									<c:if test="${pageNow < pageCount }">
 										<li><a href="${pageContext.request.contextPath }/userBlog.do?type=page&userName=${visitUserInfo.userName }&pageNow=${pageNow + 1 }">下一页</a></li>
 										<li><a href="${pageContext.request.contextPath }/userBlog.do?type=page&userName=${visitUserInfo.userName }&pageNow=${pageCount }">尾页</a></li>
 									</c:if>
+									<li><a href="#" onclick="return false">当前第${pageNow }页</a></li>
 								</ul>
 							</div>
 						</div>

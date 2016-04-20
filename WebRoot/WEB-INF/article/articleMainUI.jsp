@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,13 +24,13 @@
 						<div class="page-header">
 							<br/>
 							<h1 style="color:white;">
-								Switch的博客
+								${visitUserInfo.nickName }的博客
 							</h1>
 						</div>
 						<p class="text-left text-muted" style="font-size:22px;color:#00ff7f">
 							&nbsp;&nbsp;&nbsp;&nbsp;
 							&nbsp;&nbsp;&nbsp;&nbsp;
-							这里是个性签名。
+							${visitBlogInfo.idiograph }
 						</p>
 					</div>
 				</div>
@@ -38,14 +39,26 @@
 						<div class="btn-group" >
 							<button class="btn btn-default" type="button">
 								<em class="glyphicon glyphicon-align-left">
-									<a style="text-decoration:none;" href="index.html"><span style="color:black;">目录视图</span></a>
+									<a style="text-decoration:none;" href="#"><span style="color:black;">目录视图</span></a>
 								</em> 
 							</button>
 							<button class="btn btn-default" type="button">
 								<em class="glyphicon glyphicon-align-center">
-									<a style="text-decoration:none;" href="index2.html"><span style="color:black;">摘要视图</span></a>
+									<a style="text-decoration:none;" href="#"><span style="color:black;">摘要视图</span></a>
 								</em>
 							</button>
+							<c:if test="${loginUserInfo.userName == visitUserInfo.userName}">
+								<button class="btn btn-default" type="button">
+									<em class="glyphicon glyphicon-align-right">
+										<a style="text-decoration:none;" href="#"><span style="color:black;">写博客&nbsp;</span></a>
+									</em>
+								</button>
+								<button class="btn btn-default" type="button">
+									<em class="glyphicon glyphicon-align-justify">
+										<a style="text-decoration:none;" href="#"><span style="color:black;">修改博客</span></a>
+									</em>
+								</button>
+							</c:if>
 						</div>
 					</div>
 				</div>
@@ -59,15 +72,15 @@
 								src="http://lorempixel.com/140/140/" class="img-thumbnail">
 								<br/>
 								<span>
-									<strong>用户名</strong>
+									<strong>${visitUserInfo.userName }</strong>
 								</span>
 							</div>
 							<br/>
 							<div style="width: 100%;">
 								<div style="text-align: left;line-height:20px; position:relative;left:30px; width: 70%;">
-									<p>访问：10000次</p>
-									<p>博客：10000篇</p>
-									<p>评论：10000条</p>
+									<p>访问：${visitClickCount }次</p>
+									<p>博客：${visitArticleCount }篇</p>
+									<p>评论：${visitCritiqueCount }条</p>
 								</div>
 							</div>
 							<br/>

@@ -4,7 +4,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
+import org.hibernate.type.NullableType;
 
 import com.myblog.basic.BasicService;
 import com.myblog.domain.Article;
@@ -72,6 +74,22 @@ public class ArticleService extends BasicService implements ArticleServiceInter 
 		String hql = "select max(date) from Article a where a.user.userName=?";
 		String[] parameters = {user.getUserName()};
 		return (Date) this.executeUniqueQuery(hql, parameters);
+	}
+
+	@Override
+	public User getUserByArticleId(String articleId) {
+		String sql = "select u.* from user u,article a where u.userId = a.userId and a.articleId=?";
+		String[] parameters = {articleId};
+		String[] alias = {"userId", "userName", "password", "nickName", "question", "answer"};
+		NullableType[] types = {Hibernate.INTEGER, Hibernate.STRING, Hibernate.STRING, 
+				Hibernate.STRING, Hibernate.STRING, Hibernate.STRING};
+		Class<User> clazz = User.class;
+		List<User> users = this.executeSQLQueryAndTransformer(sql, parameters, alias, types, clazz);
+		User user = new User();
+		if(users != null) {
+			user = users.get(0);
+		}
+		return user;
 	}
 	
 	

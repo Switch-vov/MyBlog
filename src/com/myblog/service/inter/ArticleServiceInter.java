@@ -74,4 +74,13 @@ public interface ArticleServiceInter extends BasicServiceInter{
 	 * @return Date对象
 	 */
 	public Date getLastestUpdateDateByUser(User user);
+	
+	/**
+	 * 
+	 * @author Switch
+	 * @function 通过文章ID获取用户
+	 * @param articleId
+	 * @return User对象
+	 */
+	public User getUserByArticleId(String articleId);
 }

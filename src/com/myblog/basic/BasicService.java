@@ -6,11 +6,16 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.NullableType;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.myblog.domain.User;
 
 //配置注解@Transactional用处是让spring的事务管理器接管该Service的事务
 @Transactional
@@ -132,4 +137,26 @@ public abstract class BasicService implements BasicServiceInter {
 			}
 		return query.list();
 	}
+
+	@Override
+	public <T> List<T> executeSQLQueryAndTransformer(String sql,
+			Object[] parameters, String[] alias, NullableType[] types,
+			Class<T> clazz) {
+		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
+		// 注入?
+		if(parameters != null && parameters.length > 0) {
+			for(int i = 0; i < parameters.length; i++) {
+				query.setParameter(i, parameters[i]);
+				}
+			}
+		if (alias != null && alias.length > 0 && types!= null && types.length > 0) {
+			for (int i = 0; i < alias.length; i++) {
+				query.addScalar(alias[i], types[i]);
+			}
+		}
+		query.setResultTransformer(Transformers.aliasToBean(clazz));
+		return query.list();
+	}
+	
+	
 }

@@ -40,14 +40,20 @@
 					<div class="col-md-12" style="text-align: right;">
 						<div class="btn-group" >
 							<button class="btn btn-default" type="button">
-								<em class="glyphicon glyphicon-align-left"></em> 目录视图
+								<em class="glyphicon glyphicon-align-left">
+									<a style="text-decoration:none;" href="#"><span style="color:black;">目录视图</span></a>
+								</em> 
 							</button>
 							<button class="btn btn-default" type="button">
-								<em class="glyphicon glyphicon-align-center"></em> 摘要视图
+								<em class="glyphicon glyphicon-align-center">
+									<a style="text-decoration:none;" href="#"><span style="color:black;">摘要视图</span></a>
+								</em>
 							</button>
 							<c:if test="${loginUserInfo.userName == visitUserInfo.userName}">
 								<button class="btn btn-default" type="button">
-									<em class="glyphicon glyphicon-align-right"></em> 写博客
+									<em class="glyphicon glyphicon-align-right">
+										<a style="text-decoration:none;" href="#"><span style="color:black;">写博客&nbsp;</span></a>
+									</em>
 								</button>
 							</c:if>
 						</div>

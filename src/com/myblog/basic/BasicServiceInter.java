@@ -3,6 +3,8 @@ package com.myblog.basic;
 import java.io.Serializable;
 import java.util.List;
 
+import org.hibernate.type.NullableType;
+
 /**
  * 
  * @author Switch
@@ -101,4 +103,17 @@ public interface BasicServiceInter {
 	 * @return 查询结果集
 	 */
 	public List executeSQLQuery(String sql, Object[] parameters);
+	
+	/**
+	 * 
+	 * @author Switch
+	 * @function 使用原生SQL查询并转换为Domain对象
+	 * @param sql
+	 * @param parameters
+	 * @param alias 查询数据数组
+	 * @param types Hibernate类型数组
+	 * @param clazz 转换的domain类对象
+	 * @return Domain对象列表
+	 */
+	public <T> List<T> executeSQLQueryAndTransformer(String sql, Object[] parameters, String[] alias, NullableType[] types, Class<T> clazz);
 }

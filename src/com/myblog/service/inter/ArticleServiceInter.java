@@ -1,5 +1,6 @@
 package com.myblog.service.inter;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -64,4 +65,13 @@ public interface ArticleServiceInter extends BasicServiceInter{
 	 * @return 总页数
 	 */
 	public int getArticlePageCount(User user, int pageSize);
+	
+	/**
+	 * 
+	 * @author Switch
+	 * @function 获取最新更新的博客文章时间
+	 * @param user
+	 * @return Date对象
+	 */
+	public Date getLastestUpdateDateByUser(User user);
 }

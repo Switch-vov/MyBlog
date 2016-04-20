@@ -1,1 +1,24 @@
 # Empty CSS file for your own CSS
+
+a.one:LINK {
+	color:black;
+}
+
+a.one:VISITED {
+	color:black;
+}
+
+a.one:HOVER {
+	color:grey;
+}
+
+a.one:ACTIVE{
+	color:black;
+}
+
+a.one{
+	text-decoration: none;
+}
+a.one:-webkit-any-link {
+    cursor: auto;
+}

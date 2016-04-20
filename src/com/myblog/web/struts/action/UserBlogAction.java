@@ -1,5 +1,8 @@
 package com.myblog.web.struts.action;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -43,7 +46,7 @@ public class UserBlogAction extends DispatchAction {
 		// get blog username from query string
 		String userName = request.getParameter("userName");
 		// User loginUserInfo = (User) request.getSession().getAttribute("loginUserInfo");
-		if(prepareShowVisitInfo(request, userName, 1, 50)){
+		if(prepareShowVisitInfo(request, userName, 1, 30)){
 			return mapping.findForward("gotoUserUI");
 		} else {
 			return mapping.findForward("opererr");
@@ -56,23 +59,24 @@ public class UserBlogAction extends DispatchAction {
 		String pageNowString = request.getParameter("pageNow");
 		String userName = request.getParameter("userName");
 		int pageNow = 1;
+		int pageSize = 30;
 		try {
 			pageNow = Integer.parseInt(pageNowString);
 		} catch (Exception e) {
-			if(prepareShowVisitInfo(request, userName, 1, 50)){
+			if(prepareShowVisitInfo(request, userName, 1, pageSize)){
 				return mapping.findForward("gotoUserUI");
 			} else {
 				return mapping.findForward("opererr");
 			}
 		}
 		if(pageNow <= 0 || pageNow > articleService.getArticlePageCount(userService.getUserByUserName(userName), 50)) {
-			if(prepareShowVisitInfo(request, userName, 1, 50)){
+			if(prepareShowVisitInfo(request, userName, 1, pageSize)){
 				return mapping.findForward("gotoUserUI");
 			} else {
 				return mapping.findForward("opererr");
 			}
 		} else {
-			if(prepareShowVisitInfo(request, userName, pageNow, 50)){
+			if(prepareShowVisitInfo(request, userName, pageNow, pageSize)){
 				return mapping.findForward("gotoUserUI");
 			} else {
 				return mapping.findForward("opererr");
@@ -128,5 +132,62 @@ public class UserBlogAction extends DispatchAction {
 		request.setAttribute("pageNow", pageNow);
 		
 		return true;
+	}
+	
+	public ActionForward gotoAllBlogUI(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		prepareAllBlogInfo(request, 1, 20);
+		
+		return mapping.findForward("gotoAllBlogUI");
+	}
+	
+	public ActionForward pageBlog(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		String pageNowString = request.getParameter("pageNow");
+		int pageNow = 1;
+		int pageSize = 20;
+		try {
+			pageNow = Integer.parseInt(pageNowString);
+		} catch (Exception e) {
+			prepareAllBlogInfo(request, 1, pageSize);
+			return mapping.findForward("gotoAllBlogUI");
+		}
+		if(pageNow <= 0 || pageNow > userService.getWriterBlogUserPageCount(pageSize)) {
+			prepareAllBlogInfo(request, 1, pageSize);
+			return mapping.findForward("gotoAllBlogUI");
+		} else {
+			prepareAllBlogInfo(request, pageNow, pageSize);
+			return mapping.findForward("gotoAllBlogUI");
+		}
+	}
+	
+
+	private void prepareAllBlogInfo(HttpServletRequest request,int pageNow, int pageSize) {
+		List<User> tmpUsers =  userService.getAllUserByPageOrderByTime(pageNow, pageSize);
+		List<User> allUser = new ArrayList<User>();
+		for (User user : tmpUsers) {
+			User userTmp =  new User();
+			userTmp = userService.checkUserNotEncrypt(user);
+			Integer userClick = new Integer(0);
+		 	userClick = articleService.getClickTotalCountByUser(userTmp);
+		 	request.setAttribute("userClick" + userTmp.getUserName(), userClick);
+		 	Integer userCritique = new Integer(0);
+		 	userCritique = articleService.getCritiqueTotalCountByUser(userTmp);
+		 	request.setAttribute("userCritique" + userTmp.getUserName(), userCritique);
+		 	Date lastUpdateTime = new Date();
+		 	lastUpdateTime = articleService.getLastestUpdateDateByUser(userTmp);
+		 	request.setAttribute("lastUpdateTime" + userTmp.getUserName(), lastUpdateTime);
+			allUser.add(userTmp);
+			// test encapsulate (ok)
+			// System.out.println(userTmp.getUserId() + " " + userTmp.getNickName() + " " +  userTmp.getArticles().size());
+		}
+		request.setAttribute("allUser", allUser);
+		
+		Integer pageCount = userService.getWriterBlogUserPageCount(pageSize);
+		request.setAttribute("pageCount", pageCount);
+		
+		request.setAttribute("pageNow", pageNow);
 	}
 }

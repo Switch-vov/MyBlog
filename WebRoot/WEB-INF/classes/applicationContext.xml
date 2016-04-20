@@ -85,6 +85,8 @@
 	<!-- 配置修改用户信息action，注解注入 -->
 	<bean name="/modifyBlogInfo" class="com.myblog.web.struts.action.ModifyBlogInfoAction"/>
 	<!-- 配置跳转到首页action -->
-	<bean name="/gotoMainUI" class="com.myblog.web.struts.action.GotoMainUIAction"></bean>
-
+	<bean name="/gotoMainUI" class="com.myblog.web.struts.action.GotoMainUIAction" />
+	<!-- 配置博客内容action，注解注入 -->
+	<bean name="/userArticle" class="com.myblog.web.struts.action.UserArticleAction" />
+	
 </beans>

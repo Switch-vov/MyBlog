@@ -91,31 +91,31 @@
 											<c:choose>
 												<c:when test="${(status.index % 5) == 0}">
 													<tr>
-														<td>${article.title }</td>
+														<td><a class="one" href="${pageContext.request.contextPath }/userArticle.do?type=gotoArticleContentPage&articleId=${article.articleId }">${article.title }</a></td>
 														<td style="text-align: right;">${article.date } 阅读(${fn:length(article.clicks) }) 评论(${fn:length(article.critiques) })</td>
 													</tr>
 												</c:when>
 												<c:when test="${(status.index % 5) == 1}">
 													<tr class="active">
-														<td>${article.title }</td>
+														<td><a class="one" href="${pageContext.request.contextPath }/userArticle.do?type=gotoArticleContentPage&articleId=${article.articleId }">${article.title }</a></td>
 														<td style="text-align: right;">${article.date } 阅读(${fn:length(article.clicks) }) 评论(${fn:length(article.critiques) })</td>
 													</tr>
 												</c:when>
 												<c:when test="${(status.index % 5) == 2}">
 													<tr class="success">
-														<td>${article.title }</td>
+														<td><a class="one" href="${pageContext.request.contextPath }/userArticle.do?type=gotoArticleContentPage&articleId=${article.articleId }">${article.title }</a></td>
 														<td style="text-align: right;">${article.date } 阅读(${fn:length(article.clicks) }) 评论(${fn:length(article.critiques) })</td>
 													</tr>
 												</c:when>
 												<c:when test="${(status.index % 5) == 3}">
 													<tr class="warning">
-														<td>${article.title }</td>
+														<td><a class="one" href="${pageContext.request.contextPath }/userArticle.do?type=gotoArticleContentPage&articleId=${article.articleId }">${article.title }</a></td>
 														<td style="text-align: right;">${article.date } 阅读(${fn:length(article.clicks) }) 评论(${fn:length(article.critiques) })</td>
 													</tr>
 												</c:when>
 												<c:when test="${(status.index % 5) == 4}">
 													<tr class="danger">
-														<td>${article.title }</td>
+														<td><a class="one" href="${pageContext.request.contextPath }/userArticle.do?type=gotoArticleContentPage&articleId=${article.articleId }">${article.title }</a></td>
 														<td style="text-align: right;">${article.date } 阅读(${fn:length(article.clicks) }) 评论(${fn:length(article.critiques) })</td>
 													</tr>
 												</c:when>
@@ -146,9 +146,10 @@
 			<div class="col-md-1"></div>
 		</div>
 		
-		<%-- 引入页尾 --%>
-		<jsp:include page="/WEB-INF/public/foot.jsp" />
 	</div>
+	
+	<%-- 引入页尾 --%>
+	<jsp:include page="/WEB-INF/public/foot.jsp" />
 	
 	
 	<script src="${pageContext.request.contextPath }/resource/js/jquery.min.js"></script>

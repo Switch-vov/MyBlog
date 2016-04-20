@@ -92,4 +92,13 @@ public interface BasicServiceInter {
 	 * @return
 	 */
 	public <T> List<T> getAll(String tname);
+	
+	/**
+	 * 
+	 * @author Switch
+	 * @function 使用原生SQL进行查询
+	 * @param sql
+	 * @return 查询结果集
+	 */
+	public List executeSQLQuery(String sql, Object[] parameters);
 }

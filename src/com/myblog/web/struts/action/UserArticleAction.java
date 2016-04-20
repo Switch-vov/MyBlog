@@ -8,21 +8,9 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 
 public class UserArticleAction extends DispatchAction {
-	/*
-	 * Generated Methods
-	 */
-
-	/** 
-	 * Method execute
-	 * @param mapping
-	 * @param form
-	 * @param request
-	 * @param response
-	 * @return ActionForward
-	 */
-	public ActionForward execute(ActionMapping mapping, ActionForm form,
+	
+	public ActionForward gotoArticleContentPage(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
+		return mapping.findForward("gotoArticleContentPage");
 	}
 }

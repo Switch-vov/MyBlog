@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
 import org.springframework.transaction.annotation.Transactional;
@@ -118,5 +119,17 @@ public abstract class BasicService implements BasicServiceInter {
 	@Override
 	public <T> List<T> getAll(String tname) {
 		return this.executeQuery("from " + tname, null);
+	}
+
+	@Override
+	public List executeSQLQuery(String sql, Object[] parameters) {
+		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
+		// 注入?
+		if(parameters != null && parameters.length > 0) {
+			for(int i = 0; i < parameters.length; i++) {
+				query.setParameter(i, parameters[i]);
+				}
+			}
+		return query.list();
 	}
 }

@@ -39,8 +39,9 @@
       path="/userBlog"
       type="com.myblog.web.struts.action.UserBlogAction"
       validate="false"
-      cancellable="true" >
+      cancellable="true">
       <forward name="gotoUserUI" path="/WEB-INF/user/userMainUI.jsp" />
+      <forward name="gotoAllBlogUI" path="/WEB-INF/public/allBlog.jsp" />
     </action>
     <action
       attribute="userForm"
@@ -80,7 +81,11 @@
       path="/userArticle"
       type="com.myblog.web.struts.action.UserArticleAction"
       validate="false"
-      cancellable="true" />
+      cancellable="true" >
+      <forward name="gotoArticleContentPage" path="/WEB-INF/article/articleMainUI.jsp" />
+    </action>
+
+    
 
 
 

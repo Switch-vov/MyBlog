@@ -1,5 +1,6 @@
 package com.myblog.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -64,6 +65,13 @@ public class ArticleService extends BasicService implements ArticleServiceInter 
 		String hql = "select count(*) from Article a where a.user.userName=?";
 		String[] parameters = {user.getUserName()};
 		return this.queryPageCount(hql, parameters, pageSize);
+	}
+
+	@Override
+	public Date getLastestUpdateDateByUser(User user) {
+		String hql = "select max(date) from Article a where a.user.userName=?";
+		String[] parameters = {user.getUserName()};
+		return (Date) this.executeUniqueQuery(hql, parameters);
 	}
 	
 	

@@ -8,6 +8,5 @@
 
 <body>
 	<h1>操作成功</h1>
-	<a href="${pageContext.servletContext.contextPath }/login.do?type=goMainFrame">返回主界面</a>
 </body>
 </html>

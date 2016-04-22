@@ -25,6 +25,11 @@ public class Click implements java.io.Serializable {
 	public Click(Article article) {
 		this.article = article;
 	}
+	
+	public Click(Article article, String ip) {
+		this.article = article;
+		this.ip = ip;
+	}
 
 	/** full constructor */
 	public Click(Article article, String ip, Date date) {

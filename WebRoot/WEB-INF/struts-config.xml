@@ -4,6 +4,7 @@
 	<form-beans>
 		<!-- 配置用户信息表单 -->
     	<form-bean name="userForm" type="com.myblog.web.struts.form.UserForm" />
+    <form-bean name="articleForm" type="com.myblog.web.struts.form.ArticleForm" />
 	</form-beans>
 	
 	<!-- 配置全局跳转 -->
@@ -76,12 +77,16 @@
       validate="false"
       cancellable="true" />
     <action
+      attribute="articleForm"
       input="/WEB-INF/user/userMainUI.jsp"
+      name="articleForm"
       parameter="type"
       path="/userArticle"
+      scope="request"
       type="com.myblog.web.struts.action.UserArticleAction"
       validate="false"
-      cancellable="true" >
+      cancellable="true">
+      <forward name="gotoWriteBlogUI" path="/WEB-INF/article/articleWriteUI.jsp" />
       <forward name="gotoArticleContentPage" path="/WEB-INF/article/articleMainUI.jsp" />
     </action>
 

@@ -39,22 +39,28 @@
 				<div class="row">
 					<div class="col-md-12" style="text-align: right;">
 						<div class="btn-group" >
-							<button class="btn btn-default" type="button">
-								<em class="glyphicon glyphicon-align-left">
-									<a style="text-decoration:none;" href="#"><span style="color:black;">目录视图</span></a>
-								</em> 
-							</button>
-							<button class="btn btn-default" type="button">
-								<em class="glyphicon glyphicon-align-center">
-									<a style="text-decoration:none;" href="#"><span style="color:black;">摘要视图</span></a>
-								</em>
-							</button>
-							<c:if test="${loginUserInfo.userName == visitUserInfo.userName}">
+							<a style="text-decoration:none;" href="${pageContext.request.contextPath }/userBlog.do?type=gotoUserUI&userName=${visitUserInfo.userName }">
 								<button class="btn btn-default" type="button">
-									<em class="glyphicon glyphicon-align-right">
-										<a style="text-decoration:none;" href="#"><span style="color:black;">写博客&nbsp;</span></a>
+										<em class="glyphicon glyphicon-align-left">
+											<span style="color:black;">目录视图</span>
+										</em> 
+								</button>
+							</a>
+							<a style="text-decoration:none;" href="#">
+								<button class="btn btn-default" type="button">
+									<em class="glyphicon glyphicon-align-center">
+										<span style="color:black;">摘要视图</span>
 									</em>
 								</button>
+							</a>
+							<c:if test="${loginUserInfo.userName == visitUserInfo.userName}">
+								<a style="text-decoration:none;" href="${pageContext.request.contextPath }/userArticle.do?type=gotoWriteBlogUI&userId=${loginUserInfo.userId }">
+									<button class="btn btn-default" type="button">
+										<em class="glyphicon glyphicon-align-right">
+											<span style="color:black;">写博客&nbsp;</span>
+										</em>
+									</button>
+								</a>
 							</c:if>
 						</div>
 					</div>
@@ -153,9 +159,9 @@
 		</div>
 		
 	</div>
-	
 	<%-- 引入页尾 --%>
 	<jsp:include page="/WEB-INF/public/foot.jsp" />
+	</div>
 	
 	
 	<script src="${pageContext.request.contextPath }/resource/js/jquery.min.js"></script>

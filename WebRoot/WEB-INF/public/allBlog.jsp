@@ -8,7 +8,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>博客首页</title>
+<title>博客列表</title>
 <link href="${pageContext.request.contextPath }/resource/css/bootstrap.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath }/resource/css/style.css" rel="stylesheet">
 </head>

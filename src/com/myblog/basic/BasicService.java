@@ -158,5 +158,16 @@ public abstract class BasicService implements BasicServiceInter {
 		return query.list();
 	}
 	
+	@Override
+	public int executeSQLUpdate(String sql, Object[] parameters){
+		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
+		// 注入?
+		if(parameters != null && parameters.length > 0) {
+			for(int i = 0; i < parameters.length; i++) {
+				query.setParameter(i, parameters[i]);
+				}
+			}
+		return query.executeUpdate();
+	}
 	
 }

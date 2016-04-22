@@ -69,7 +69,7 @@ public class UserBlogAction extends DispatchAction {
 				return mapping.findForward("opererr");
 			}
 		}
-		if(pageNow <= 0 || pageNow > articleService.getArticlePageCount(userService.getUserByUserName(userName), 50)) {
+		if(pageNow <= 0 || pageNow > articleService.getArticlePageCount(userService.getUserByUserName(userName), pageSize)) {
 			if(prepareShowVisitInfo(request, userName, 1, pageSize)){
 				return mapping.findForward("gotoUserUI");
 			} else {

@@ -1,5 +1,6 @@
 package com.myblog.service.impl;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -90,6 +91,17 @@ public class ArticleService extends BasicService implements ArticleServiceInter 
 			user = users.get(0);
 		}
 		return user;
+	}
+
+	@Override
+	public String saveArticleByUserIdAndTitleAndContent(String userId,
+			String title, String content) throws Exception{
+		String sql = "insert into article(userId,title,content) values(?,?,?)";
+		String[] parameters = {userId, title, content};
+		this.executeSQLUpdate(sql, parameters);
+		sql = "select max(articleId) from article";
+		List list = this.executeSQLQuery(sql, null);
+		return list.get(0).toString();
 	}
 	
 	

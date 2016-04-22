@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +8,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>博客首页</title>
+<title>${visitUserInfo.userName }的博客——${visitSingleArticleInfo.title }</title>
 <link href="${pageContext.request.contextPath }/resource/css/bootstrap.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath }/resource/css/style.css" rel="stylesheet">
 </head>
@@ -37,27 +38,35 @@
 				<div class="row">
 					<div class="col-md-12" style="text-align: right;">
 						<div class="btn-group" >
-							<button class="btn btn-default" type="button">
-								<em class="glyphicon glyphicon-align-left">
-									<a style="text-decoration:none;" href="#"><span style="color:black;">目录视图</span></a>
-								</em> 
-							</button>
-							<button class="btn btn-default" type="button">
-								<em class="glyphicon glyphicon-align-center">
-									<a style="text-decoration:none;" href="#"><span style="color:black;">摘要视图</span></a>
-								</em>
-							</button>
+							<a style="text-decoration:none;" href="${pageContext.request.contextPath }/userBlog.do?type=gotoUserUI&userName=${visitUserInfo.userName }">
+								<button class="btn btn-default" type="button">
+										<em class="glyphicon glyphicon-align-left">
+											<span style="color:black;">目录视图</span>
+										</em> 
+								</button>
+							</a>
+							<a style="text-decoration:none;" href="#">
+								<button class="btn btn-default" type="button">
+									<em class="glyphicon glyphicon-align-center">
+										<span style="color:black;">摘要视图</span>
+									</em>
+								</button>
+							</a>
 							<c:if test="${loginUserInfo.userName == visitUserInfo.userName}">
-								<button class="btn btn-default" type="button">
-									<em class="glyphicon glyphicon-align-right">
-										<a style="text-decoration:none;" href="#"><span style="color:black;">写博客&nbsp;</span></a>
-									</em>
-								</button>
-								<button class="btn btn-default" type="button">
-									<em class="glyphicon glyphicon-align-justify">
-										<a style="text-decoration:none;" href="#"><span style="color:black;">修改博客</span></a>
-									</em>
-								</button>
+								<a style="text-decoration:none;" href="${pageContext.request.contextPath }/userArticle.do?type=gotoWriteBlogUI&userId=${loginUserInfo.userId }">
+									<button class="btn btn-default" type="button">
+										<em class="glyphicon glyphicon-align-right">
+											<span style="color:black;">写博客&nbsp;</span>
+										</em>
+									</button>
+								</a>
+								<a style="text-decoration:none;" href="#">
+									<button class="btn btn-default" type="button">
+										<em class="glyphicon glyphicon-align-justify">
+										<span style="color:black;">修改博客</span>
+										</em>
+									</button>
+								</a>
 							</c:if>
 						</div>
 					</div>
@@ -87,19 +96,26 @@
 						</div>
 					</div>
 					<div class="col-md-10">
-						<div style="background-color: white;">
-							<span style="font-size:20px;"><a class="one" href="#">这里是标题栏</a></span>
+						<div style="background-color: white;padding: 20px;">
+							<span style="font-size:20px;"><a class="one" href="${pageContext.request.contextPath }/userArticle.do?type=gotoArticleContentPage&articleId=${visitSingleArticleInfo.articleId }">${visitSingleArticleInfo.title }</a></span>
 							<br/>
 							<br/>
-							<span class="label label-default">这里是博客标签</span>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<span class="label label-default">博客标签1</span>
+							<span class="label label-default">博客标签2</span>
+							<span class="label label-default">博客标签3</span>
+							<span class="label label-default">博客标签4</span>
+							<span class="label label-default">博客标签5</span>
 							<div style="text-align: right;">
-								<span> 发布博客的时间 </span>&nbsp;&nbsp;&nbsp;
-								<span> n人阅读 </span>&nbsp;&nbsp;&nbsp;
-								<span>评论（n）</span>
+								<span>${visitSingleArticleInfo.date }</span>&nbsp;&nbsp;&nbsp;
+								<span>阅读(${fn:length(visitSingleArticleInfo.clicks) })</span>&nbsp;&nbsp;&nbsp;
+								<span>评论(${fn:length(visitSingleArticleInfo.critiques) })</span>
 							</div>
 							<hr/>
 							<div>
-								<p>这里放博客？</p>
+								<p>
+									${visitSingleArticleInfo.content }
+								</p>
 							</div>
 							
 							

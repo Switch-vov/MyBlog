@@ -116,4 +116,13 @@ public interface BasicServiceInter {
 	 * @return Domain对象列表
 	 */
 	public <T> List<T> executeSQLQueryAndTransformer(String sql, Object[] parameters, String[] alias, NullableType[] types, Class<T> clazz);
+	
+	/**
+	 * 
+	 * @author Switch
+	 * @function 
+	 * @param sql
+	 * @param parameters
+	 */
+	public int executeSQLUpdate(String sql, Object[] parameters);
 }

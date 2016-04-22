@@ -1,5 +1,6 @@
 package com.myblog.service.inter;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -83,4 +84,15 @@ public interface ArticleServiceInter extends BasicServiceInter{
 	 * @return User对象
 	 */
 	public User getUserByArticleId(String articleId);
+	
+	/**
+	 * 
+	 * @author Switch
+	 * @function 通过用户ID,标题,内容保存文章
+	 * @param userId
+	 * @param title
+	 * @param content
+	 * @return 文章ID
+	 */
+	public String saveArticleByUserIdAndTitleAndContent(String userId, String title, String content)  throws Exception;
 }

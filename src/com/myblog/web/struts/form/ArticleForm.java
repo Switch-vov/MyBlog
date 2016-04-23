@@ -2,10 +2,17 @@ package com.myblog.web.struts.form;
 
 import org.apache.struts.action.ActionForm;
 public class ArticleForm extends ActionForm {
+	private String articleId;
 	private String userId;
 	private String title;
 	private String content;
 	
+	public String getArticleId() {
+		return articleId;
+	}
+	public void setArticleId(String articleId) {
+		this.articleId = articleId;
+	}
 	public String getUserId() {
 		return userId;
 	}

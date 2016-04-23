@@ -9,8 +9,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>${visitUserInfo.userName }的博客——${visitSingleArticleInfo.title }</title>
-<link href="${pageContext.request.contextPath }/resource/css/bootstrap.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath }/resource/css/style.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath }/resource/css/bootstrap.min.css" rel="stylesheet">
+<script src="${pageContext.request.contextPath }/resource/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath }/resource/js/bootstrap.min.js"></script>
+<link href="${pageContext.request.contextPath }/resource/summernote/summernote.css" rel="stylesheet">
+<script src="${pageContext.request.contextPath }/resource/summernote/summernote.min.js"></script>
+<script src="${pageContext.request.contextPath }/resource/summernote/summernote-zh-CN.js"></script>
 </head>
 <body>
 	<div class="container-fluid">
@@ -25,7 +30,7 @@
 						<div class="page-header">
 							<br/>
 							<h1 style="color:white;">
-								${visitUserInfo.nickName }的博客
+								<a class="two" href="${pageContext.request.contextPath }/userBlog.do?type=gotoUserUI&userName=${visitUserInfo.userName }">${visitUserInfo.nickName }的博客</a>
 							</h1>
 						</div>
 						<p class="text-left text-muted" style="font-size:22px;color:#00ff7f">
@@ -60,7 +65,7 @@
 										</em>
 									</button>
 								</a>
-								<a style="text-decoration:none;" href="#">
+								<a style="text-decoration:none;" href="${pageContext.request.contextPath }/userArticle.do?type=gotoUpdateBlogUI&userId=${loginUserInfo.userId }&articleId=${visitSingleArticleInfo.articleId }">
 									<button class="btn btn-default" type="button">
 										<em class="glyphicon glyphicon-align-justify">
 										<span style="color:black;">修改博客</span>
@@ -119,22 +124,89 @@
 							</div>
 							
 							
+							<%-- 评论显示区 --%>
+							<hr/>
+							<c:forEach var="critique" items="${visitCritiquesInfo }">
+								<div class="media well">
+					 				<a href="${pageContext.request.contextPath }/userBlog.do?type=gotoUserUI&userName=${critique.user.userName }" class="pull-left">
+					 					<img alt="Bootstrap Media Preview" src="http://lorempixel.com/64/64/" class="media-object" />
+					 				</a>
+									<div class="media-body">
+										<h4 class="media-heading">
+											<a href="${pageContext.request.contextPath }/userBlog.do?type=gotoUserUI&userName=${critique.user.userName }">${critique.user.nickName }</a>
+										</h4> 
+										${critique.content }
+									</div>
+								</div>
+							</c:forEach>
 							<%-- 评论栏  --%>
-
+							<hr />
+							<label for="title" style="color: black; font-size: 20px;">
+								&nbsp;&nbsp;&nbsp;&nbsp;评论
+							</label>
+							<c:if test="${empty loginUserInfo}">
+								<div class="alert alert-dismissable alert-info">
+									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+										×
+									</button>
+									<h4>
+										如果您想要评论
+									</h4> 
+										请<a href="${pageContext.request.contextPath }/login.do?type=gotoLogin" class="alert-link"><strong>登录</strong></a>/
+										<a href="${pageContext.request.contextPath }/login.do?type=gotoRegister" class="alert-link"><strong>注册</strong></a>
+								</div>
+							</c:if>
+							<c:if test="${!empty loginUserInfo}">
+								<form action="${pageContext.request.contextPath }/userArticle.do?type=comment" method="post">
+									<div class="editor"></div>
+									<br />
+									<textarea style="display: none;" id="content" name="content">${content }</textarea>
+									<input type="hidden" name="userId" value="${loginUserInfo.userId }"/>
+									<input type="hidden" name="articleId" value="${visitSingleArticleInfo.articleId }"/>
+									<button type="submit" class="btn btn-default" onclick="putContent()">提交</button>
+								</form>
+							</c:if>
+						</div>
 						</div>
 					</div>
 				</div>
+				<div class="col-md-1"></div>
 			</div>
-			<div class="col-md-1"></div>
-		</div>		
 				
 		<%-- 引入页尾 --%>
 		<jsp:include page="/WEB-INF/public/foot.jsp" />
 	</div>
+
 	
-	
-	<script src="${pageContext.request.contextPath }/resource/js/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath }/resource/js/bootstrap.min.js"></script>
+	<script>
+	   $(document).ready(function() {
+		  $('.editor').summernote({
+		  	toolbar: [
+			    // [groupName, [list of button]]
+			    ['style1', ['style']],
+			    ['urdo', ['undo', 'redo']],
+			    ['style2', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+			    ['fontns', ['fontname','fontsize']],
+			    ['color', ['color']],
+			    ['font', ['superscript', 'subscript']],
+			    ['para', ['ul', 'ol', 'paragraph', 'height']],
+			    ['misc', ['fullscreen', 'codeview']],
+			    ['help',['help']]
+			 ],
+			lang: 'zh-CN',
+		  	height: 300,
+		  	minHeight: 200,
+		  	maxHeight: null,
+		  	focus: true });
+	   });
+ 
+ 		var putContent = function() {
+ 			var makrup = $('.editor').summernote('code');
+			/*window.alert(makrup);*/
+ 			document.getElementById("content").value = makrup;
+ 			$('.editor').summernote('destroy');
+ 		};
+	</script>
 	<script src="${pageContext.request.contextPath }/resource/js/scripts.js"></script>
 </body>
 </html>

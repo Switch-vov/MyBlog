@@ -1,6 +1,7 @@
 package com.myblog.web.struts.action;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -13,10 +14,12 @@ import org.apache.struts.actions.DispatchAction;
 
 import com.myblog.domain.Article;
 import com.myblog.domain.Bloginfo;
+import com.myblog.domain.Critique;
 import com.myblog.domain.User;
 import com.myblog.service.inter.ArticleServiceInter;
 import com.myblog.service.inter.BlogInfoServiceInter;
 import com.myblog.service.inter.ClickServiceInter;
+import com.myblog.service.inter.CritiqueServiceInter;
 import com.myblog.service.inter.UserServiceInter;
 import com.myblog.web.struts.form.ArticleForm;
 
@@ -31,7 +34,13 @@ public class UserArticleAction extends DispatchAction {
 	BlogInfoServiceInter blogInfoService;
 	@Resource
 	ClickServiceInter clickService;
+	@Resource
+	CritiqueServiceInter critiqueService;
 	
+	public void setCritiqueService(CritiqueServiceInter critiqueService) {
+		this.critiqueService = critiqueService;
+	}
+
 	public void setClickService(ClickServiceInter clickService) {
 		this.clickService = clickService;
 	}
@@ -51,21 +60,19 @@ public class UserArticleAction extends DispatchAction {
 
 
 	public ActionForward gotoArticleContentPage(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
+			HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String articleId = request.getParameter("articleId");
-		prepareArticleContent(request, articleId, true);
+		prepareArticleContent(request, articleId);
 		return mapping.findForward("gotoArticleContentPage");
 	}
 
 	private void prepareArticleContent(HttpServletRequest request,
-			String articleId, boolean isCalcClick) {
-		if (isCalcClick) {
-			// add the click record to Click Class
-			String ip =  getIpAddr(request);
-			// test click IP (ok)
-			// System.out.println(ip);
-			clickService.saveClickRecordByArticleIdAndIPAddress(articleId, ip);
-		}
+			String articleId) throws Exception{
+		// add the click record to Click Class
+		String ip =  getIpAddr(request);
+		// test click IP (ok)
+		// System.out.println(ip);
+		clickService.saveClickRecordByArticleIdAndIPAddress(articleId, ip);
 		
 		User visitUserInfo = articleService.getUserByArticleId(articleId);
 		visitUserInfo = userService.checkUserNotEncrypt(visitUserInfo);
@@ -78,6 +85,9 @@ public class UserArticleAction extends DispatchAction {
 		
 		Bloginfo visitBlogInfo = blogInfoService.getBlogInfoByUser(visitUserInfo);
 		request.setAttribute("visitBlogInfo", visitBlogInfo);
+		
+		List<Critique> visitCritiquesInfo = critiqueService.getAllCritiqueByArticleId(articleId);
+		request.setAttribute("visitCritiquesInfo", visitCritiquesInfo);
 		
 		Integer visitArticleCount = articleService.getArticleCountByUser(visitUserInfo);
 		request.setAttribute("visitArticleCount", visitArticleCount);
@@ -123,8 +133,6 @@ public class UserArticleAction extends DispatchAction {
 			request.setAttribute("errInfo", "博客内容不符合要求");
 			return mapping.findForward("gotoWriteBlogUI");
 		}
-		
-		
 		String articleId = null;
 		try {
 			articleId = articleService.saveArticleByUserIdAndTitleAndContent(userId, title, content);
@@ -132,7 +140,73 @@ public class UserArticleAction extends DispatchAction {
 			e.printStackTrace();
 			return mapping.findForward("opererr");
 		}
-		prepareArticleContent(request, articleId, false);
+
+		prepareArticleContent(request, articleId);
+		return mapping.findForward("gotoArticleContentPage");
+	}
+	
+	public ActionForward gotoUpdateBlogUI(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		String userIdStr = request.getParameter("userId");
+		User loginUserInfo = (User) request.getSession().getAttribute("loginUserInfo");
+		if (loginUserInfo == null) {
+			return mapping.findForward("opererr");
+		}
+		
+		Integer userId = null;
+		try {
+			userId = Integer.parseInt(userIdStr);
+		} catch (Exception e) {
+			return mapping.findForward("opererr");
+		}
+		
+		if (!userId.equals(loginUserInfo.getUserId())) {
+			return mapping.findForward("opererr");
+		} else {
+			
+			String articleId = request.getParameter("articleId");
+			request.setAttribute("articleId", articleId);
+			Article article = (Article) articleService.findById(Article.class, Integer.parseInt(articleId));
+			String title = article.getTitle();
+			request.setAttribute("title", title);
+			String content = article.getContent();
+			request.setAttribute("content", content);
+			return mapping.findForward("gotoModifyUI");
+		}
+	}
+	
+	public ActionForward updateArticle(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		ArticleForm articleForm = (ArticleForm) form;
+		String userId = articleForm.getUserId();
+		String title = articleForm.getTitle();
+		String content = articleForm.getContent();
+		if (title.length() > 45 || content.length() < 50) {
+			request.setAttribute("errInfo", "博客内容不符合要求");
+			return mapping.findForward("gotoUpdateBlogUI");
+		}
+		String articleId = articleForm.getArticleId();
+		Article article = (Article) this.articleService.findById(Article.class, Integer.parseInt(articleId));
+		article.setTitle(title);
+		article.setContent(content);
+		this.articleService.update(article);
+		prepareArticleContent(request, articleId);
+		return mapping.findForward("gotoArticleContentPage");
+	}
+	
+	public ActionForward comment(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		String userId = request.getParameter("userId");
+		String articleId = request.getParameter("articleId");
+		String content = request.getParameter("content");
+		User user = (User) userService.findById(User.class, Integer.parseInt(userId));
+		Article article = (Article) articleService.findById(Article.class, Integer.parseInt(articleId));
+		Critique critique = new Critique(user, article, content);
+		critiqueService.add(critique);
+		prepareArticleContent(request, articleId);
 		return mapping.findForward("gotoArticleContentPage");
 	}
 }

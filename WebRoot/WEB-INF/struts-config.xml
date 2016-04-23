@@ -88,6 +88,7 @@
       cancellable="true">
       <forward name="gotoWriteBlogUI" path="/WEB-INF/article/articleWriteUI.jsp" />
       <forward name="gotoArticleContentPage" path="/WEB-INF/article/articleMainUI.jsp" />
+      <forward name="gotoModifyUI" path="/WEB-INF/article/articleModifyUI.jsp" />
     </action>
 
     

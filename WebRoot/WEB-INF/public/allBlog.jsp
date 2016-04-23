@@ -77,6 +77,7 @@
 							<li><a href="${pageContext.request.contextPath }/userBlog.do?type=pageBlog&&pageNow=${pageCount }">尾页</a></li>
 						</c:if>
 						<li><a href="#" onclick="return false">当前第${pageNow }页</a></li>
+						<li><a href="#" onclick="return false">当前页有${fn:length(allUser) }位博主</a></li>
 					</ul>
 				</div>
 				

@@ -22,3 +22,29 @@ a.one{
 a.one:-webkit-any-link {
     cursor: auto;
 }
+
+
+
+
+a.two:LINK {
+	color:white;
+}
+
+a.two:VISITED {
+	color:white;
+}
+
+a.two:HOVER {
+	color:#DDEEFF;
+}
+
+a.two:ACTIVE{
+	color:white;
+}
+
+a.two{
+	text-decoration: none;
+}
+a.two:-webkit-any-link {
+    cursor: auto;
+}

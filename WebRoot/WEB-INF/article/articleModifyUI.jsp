@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>${loginUserInfo.userName }——写博客</title>
+<title>${loginUserInfo.userName }——修改博客</title>
 <link href="${pageContext.request.contextPath }/resource/css/style.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath }/resource/css/bootstrap.min.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath }/resource/js/jquery.min.js"></script>
@@ -30,25 +30,23 @@
 				<div class="row">
 					<div class="col-md-2"></div>
 					<div class="col-md-8">
+						<form action="${pageContext.request.contextPath }/userArticle.do?type=updateArticle" method="post">
 						<div class="form-group">
 							<label for="title" style="color: white; font-size: 20px;">
 								&nbsp;&nbsp;&nbsp;&nbsp;文章标题(标题不能多于45个字符)
 								&nbsp;&nbsp;&nbsp;&nbsp;<lable style="color:red;">${errInfo }</lable>
 							</label>
-							<input type="text" class="form-control" id="virtualtitle" value="${title }" />
+							<input type="text" class="form-control" name="title" value="${title }" />
 						</div>
 						<label for="title" style="color: white; font-size: 20px;">
 								&nbsp;&nbsp;&nbsp;&nbsp;文章内容(内容不能少于50个字符)
 						</label>
 						<br/>
-						<button id="edit" class="btn btn-default" onclick="edit()" type="button">编辑</button>
-						<button id="save" class="btn btn-default" onclick="save()" type="button">预览</button>
-						<div class="editor" style="background-color: white;"></div>
+						<div class="editor"></div>
 						<br />
-						<form action="${pageContext.request.contextPath }/userArticle.do?type=saveArticle" method="post">
-							<input type="hidden" id="title" name="title"/>
-							<input type="hidden" id="content" name="content"/>
+							<textarea style="display: none;" id="content" name="content">${content }</textarea>
 							<input type="hidden" name="userId" value="${loginUserInfo.userId }"/>
+							<input type="hidden" name="articleId" value="${articleId }"/>
 							<button type="submit" class="btn btn-default" onclick="putContent()">保存</button>
 						</form>
 					</div>
@@ -58,13 +56,20 @@
 				<br/>
 				<br/>
 				<br/>
-			</div>
-			<div class="col-md-2"></div>
+		</div>
+		<div class="col-md-2"></div>
+		
+		
 		<%-- 引入页尾 --%>
 		<jsp:include page="/WEB-INF/public/foot.jsp" />
 		</div>
 	<script>
-	   var edit = function() {
+	   $(document).ready(function() {
+	   	  var makrupStr = document.getElementById("content").value;
+	   	  /* makrupStr = makrupStr.replace(/"/g, "'");
+	   	  alert(makrupStr); */
+		  $('.editor').summernote('code', makrupStr);
+		  $('.editor').summernote('destroy');
 		  $('.editor').summernote({
 		  	toolbar: [
 			    // [groupName, [list of button]]
@@ -84,20 +89,13 @@
 		  	minHeight: 200,
 		  	maxHeight: null,
 		  	focus: true });
-		};
-
-		var save = function() {
-		  var makrup = $('.editor').summernote('code');
-		  $('.editor').summernote('destroy');
-		};
+	   });
  
  		var putContent = function() {
  			var makrup = $('.editor').summernote('code');
 			/*window.alert(makrup);*/
  			document.getElementById("content").value = makrup;
  			$('.editor').summernote('destroy');
- 			var virtualtitle = document.getElementById("virtualtitle").value;
- 			document.getElementById("title").value = virtualtitle;
  		};
 	</script>
 	

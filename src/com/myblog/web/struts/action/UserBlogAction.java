@@ -16,9 +16,11 @@ import org.apache.struts.actions.DispatchAction;
 
 import com.myblog.domain.Article;
 import com.myblog.domain.Bloginfo;
+import com.myblog.domain.Critique;
 import com.myblog.domain.User;
 import com.myblog.service.inter.ArticleServiceInter;
 import com.myblog.service.inter.BlogInfoServiceInter;
+import com.myblog.service.inter.CritiqueServiceInter;
 import com.myblog.service.inter.UserServiceInter;
 
 public class UserBlogAction extends DispatchAction {
@@ -28,7 +30,13 @@ public class UserBlogAction extends DispatchAction {
 	BlogInfoServiceInter blogInfoService;
 	@Resource
 	ArticleServiceInter articleService;
+	@Resource
+	CritiqueServiceInter critiqueService;
 	
+	public void setCritiqueService(CritiqueServiceInter critiqueService) {
+		this.critiqueService = critiqueService;
+	}
+
 	public void setUserService(UserServiceInter userService) {
 		this.userService = userService;
 	}
@@ -46,6 +54,12 @@ public class UserBlogAction extends DispatchAction {
 		// get blog username from query string
 		String userName = request.getParameter("userName");
 		// User loginUserInfo = (User) request.getSession().getAttribute("loginUserInfo");
+		String userId = request.getParameter("userId");
+		if (userId != null && userId.length() >= 0) {
+			User user = (User) userService.findById(User.class, Integer.parseInt(userId));
+			userName = user.getUserName();
+		}
+		
 		if(prepareShowVisitInfo(request, userName, 1, 30)){
 			return mapping.findForward("gotoUserUI");
 		} else {

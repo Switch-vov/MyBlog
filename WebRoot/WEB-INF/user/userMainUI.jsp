@@ -26,7 +26,7 @@
 						<div class="page-header">
 							<br/>
 							<h1 style="color:white;">
-								${visitUserInfo.nickName }的博客
+								<a class="two" href="${pageContext.request.contextPath }/userBlog.do?type=gotoUserUI&userName=${visitUserInfo.userName }">${visitUserInfo.nickName }的博客</a>
 							</h1>
 						</div>
 						<p class="text-left text-muted" style="font-size:22px;color:#00ff7f">
@@ -150,6 +150,7 @@
 										<li><a href="${pageContext.request.contextPath }/userBlog.do?type=page&userName=${visitUserInfo.userName }&pageNow=${pageCount }">尾页</a></li>
 									</c:if>
 									<li><a href="#" onclick="return false">当前第${pageNow }页</a></li>
+									<li><a href="#" onclick="return false">当前页有${fn:length(visitArticleInfo) }篇文章</a></li>
 								</ul>
 							</div>
 						</div>

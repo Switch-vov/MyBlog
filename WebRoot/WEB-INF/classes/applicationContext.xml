@@ -76,6 +76,8 @@
 	<bean id="articleService" class="com.myblog.service.impl.ArticleService" />
 	<!-- 配置 clickService对象，注解注入-->
 	<bean id="clickService" class="com.myblog.service.impl.ClickService" />
+	<!-- 配置 critiqueService对象，注解注入 -->
+	<bean id="critiqueService" class="com.myblog.service.impl.CritiqueService" />
 	
 	<!-- 配置action -->
 	<!-- 配置登录action，注解注入 -->

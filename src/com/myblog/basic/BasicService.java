@@ -88,7 +88,9 @@ public abstract class BasicService implements BasicServiceInter {
 	@Override
 	public Serializable add(Object object) {
 		// TODO Auto-generated method stub
-		return this.sessionFactory.getCurrentSession().save(object);
+		Serializable id = this.sessionFactory.getCurrentSession().save(object);
+		this.sessionFactory.getCurrentSession().flush();
+		return id;
 	}
 
 	@Override
@@ -119,6 +121,7 @@ public abstract class BasicService implements BasicServiceInter {
 	@Override
 	public void update(Object object) {
 		this.sessionFactory.getCurrentSession().update(object);
+		this.sessionFactory.getCurrentSession().flush();
 	}
 	
 	@Override

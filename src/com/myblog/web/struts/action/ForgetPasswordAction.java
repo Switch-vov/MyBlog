@@ -11,7 +11,6 @@ import org.apache.struts.actions.DispatchAction;
 
 import com.myblog.domain.User;
 import com.myblog.service.inter.UserServiceInter;
-import com.myblog.tools.MD5;
 import com.myblog.web.struts.form.UserForm;
 
 import static com.myblog.tools.MD5.createMD5;

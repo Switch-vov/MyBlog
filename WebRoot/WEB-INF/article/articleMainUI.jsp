@@ -197,7 +197,7 @@
 		  	height: 300,
 		  	minHeight: 200,
 		  	maxHeight: null,
-		  	focus: true });
+		  	focus: false });
 	   });
  
  		var putContent = function() {

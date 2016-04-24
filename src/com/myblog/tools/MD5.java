@@ -1,6 +1,5 @@
 package com.myblog.tools;
 import java.security.*;
-import java.security.spec.*;
 /**
  * @author Switch
  * 功能：MD5加密

@@ -1,6 +1,5 @@
 package com.myblog.web.struts.action;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -180,7 +179,6 @@ public class UserArticleAction extends DispatchAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		ArticleForm articleForm = (ArticleForm) form;
-		String userId = articleForm.getUserId();
 		String title = articleForm.getTitle();
 		String content = articleForm.getContent();
 		if (title.length() > 45 || content.length() < 50) {

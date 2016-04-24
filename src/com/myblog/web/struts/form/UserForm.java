@@ -3,6 +3,10 @@ package com.myblog.web.struts.form;
 import org.apache.struts.action.ActionForm;
 
 public class UserForm extends ActionForm {
+	/** 
+	* @Fields serialVersionUID : TODO
+	*/ 
+	private static final long serialVersionUID = -7169615001083188763L;
 	private String userName;
 	private String password;
 	private String repassword;

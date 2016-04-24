@@ -2,6 +2,10 @@ package com.myblog.web.struts.form;
 
 import org.apache.struts.action.ActionForm;
 public class ArticleForm extends ActionForm {
+	/** 
+	* @Fields serialVersionUID : TODO
+	*/ 
+	private static final long serialVersionUID = -5003037702940222435L;
 	private String articleId;
 	private String userId;
 	private String title;

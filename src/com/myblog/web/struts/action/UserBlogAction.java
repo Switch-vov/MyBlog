@@ -2,7 +2,6 @@ package com.myblog.web.struts.action;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -16,7 +15,6 @@ import org.apache.struts.actions.DispatchAction;
 
 import com.myblog.domain.Article;
 import com.myblog.domain.Bloginfo;
-import com.myblog.domain.Critique;
 import com.myblog.domain.User;
 import com.myblog.service.inter.ArticleServiceInter;
 import com.myblog.service.inter.BlogInfoServiceInter;
@@ -96,7 +94,6 @@ public class UserBlogAction extends DispatchAction {
 				return mapping.findForward("opererr");
 			}
 		}
-		
 	}
 
 	private boolean prepareShowVisitInfo(HttpServletRequest request,

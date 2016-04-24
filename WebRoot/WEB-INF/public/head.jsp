@@ -1,5 +1,24 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%-- 搜索框控制不能小于两个字符 --%>
+<script type="text/javascript">
+<!--
+	function checkSearchLength() {
+		var key = document.getElementById("searchKey").value;
+		var keyReg1 = /.{2,}/gi;
+		if (!keyReg1.test(key)) {
+			window.alert("请输入2-20个字符");
+			return false;
+		}
+		var keyReg2 = /.{21,}/gi;
+		if (keyReg2.test(key)) {
+			window.alert("请输入2-20个字符");
+			return false;
+		}
+	}
+//-->
+</script>
+
 <%-- 页首 --%>
 <div class="row">
 	<div class="col-md-12">
@@ -37,11 +56,11 @@
 								target="_blank">TSW的博客</a></li>
 						</ul></li>
 				</ul>
-				<form class="navbar-form navbar-left" role="search">
+				<form action="${pageContext.request.contextPath }/search.do?type=gotoSearchArticleUI" class="navbar-form navbar-left" role="search" method="post">
 					<div class="form-group">
-						<input type="text" class="form-control">
+						<input type="text" class="form-control" id="searchKey" name="searchKey">
 					</div>
-					<button type="submit" class="btn btn-default">搜索</button>
+					<button type="submit" class="btn btn-default" onclick="return checkSearchLength()">搜索</button>
 				</form>
 				<ul class="nav navbar-nav navbar-right" style="margin-right: 10px;">
 					<%-- if user not login --%>

@@ -3,7 +3,6 @@ package com.myblog.service.inter;
 import java.io.Serializable;
 
 import com.myblog.basic.BasicServiceInter;
-import com.myblog.domain.Article;
 
 public interface ClickServiceInter extends BasicServiceInter{
 	

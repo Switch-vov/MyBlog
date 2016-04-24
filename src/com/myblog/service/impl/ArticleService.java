@@ -103,6 +103,19 @@ public class ArticleService extends BasicService implements ArticleServiceInter 
 		List list = this.executeSQLQuery(sql, null);
 		return list.get(0).toString();
 	}
-	
+
+	@Override
+	public List<Article> getArticleBySearchKeyByPage(String searchKey, int pageNow, int pageSize) {
+		String hql = "from Article a where a.title like '%" + searchKey + "%' order by date desc";
+		//String[] parameters = {searchKey};
+		return this.executeQueryByPage(hql, null, pageNow, pageSize);
+	}
+
+	@Override
+	public int getArticlePageCountBySearchKey(String searchKey, int pageSize) {
+		String hql = "select count(*) from Article a where a.title like '%" + searchKey + "%'";
+		// Object[] parameters = {searchKey};
+		return this.queryPageCount(hql, null, pageSize);
+	}
 	
 }

@@ -12,7 +12,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
 
 import com.myblog.basic.BasicService;
-import com.myblog.domain.Article;
 import com.myblog.domain.Bloginfo;
 import com.myblog.domain.User;
 import com.myblog.service.inter.BlogInfoServiceInter;

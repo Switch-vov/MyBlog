@@ -5,6 +5,7 @@
 		<!-- 配置用户信息表单 -->
     	<form-bean name="userForm" type="com.myblog.web.struts.form.UserForm" />
     <form-bean name="articleForm" type="com.myblog.web.struts.form.ArticleForm" />
+    <form-bean name="searchForm" type="com.myblog.web.struts.form.SearchForm" />
 	</form-beans>
 	
 	<!-- 配置全局跳转 -->
@@ -12,6 +13,7 @@
 		<forward name="opererr" path="/WEB-INF/public/err.jsp"></forward>
 		<forward name="operok" path="/WEB-INF/public/ok.jsp"></forward>
     	<forward name="gotoMainUI" path="/index.jsp" />
+    
 	</global-forwards>
 	
 	<action-mappings>
@@ -90,6 +92,18 @@
       <forward name="gotoArticleContentPage" path="/WEB-INF/article/articleMainUI.jsp" />
       <forward name="gotoModifyUI" path="/WEB-INF/article/articleModifyUI.jsp" />
     </action>
+    <action
+      attribute="searchForm"
+      name="searchForm"
+      parameter="type"
+      path="/search"
+      scope="request"
+      type="com.myblog.web.struts.action.SearchAction"
+      validate="false"
+      cancellable="true" >
+      <forward name="gotoSearchArticleUI" path="/WEB-INF/public/searchArticle.jsp" />
+    </action>
+
 
     
 

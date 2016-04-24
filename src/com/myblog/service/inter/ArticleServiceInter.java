@@ -1,6 +1,5 @@
 package com.myblog.service.inter;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -95,4 +94,23 @@ public interface ArticleServiceInter extends BasicServiceInter{
 	 * @return 文章ID
 	 */
 	public String saveArticleByUserIdAndTitleAndContent(String userId, String title, String content)  throws Exception;
+	
+	/**
+	 * 
+	 * @author Switch
+	 * @function 获取包含关键字的文章
+	 * @param searchKey
+	 * @return 文章List
+	 */
+	public List<Article> getArticleBySearchKeyByPage(String searchKey, int pageNow, int pageSize);
+	
+	/**
+	 * 
+	 * @author Switch
+	 * @function 获取包含关键字的文章的页数
+	 * @param searchKey
+	 * @param pageSize
+	 * @return
+	 */
+	public int getArticlePageCountBySearchKey(String searchKey, int pageSize);
 }

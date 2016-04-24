@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.myblog.basic.BasicServiceInter;
-import com.myblog.domain.Article;
 import com.myblog.domain.User;
 
 public interface UserServiceInter extends BasicServiceInter{

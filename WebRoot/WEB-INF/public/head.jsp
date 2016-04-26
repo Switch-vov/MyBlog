@@ -89,7 +89,7 @@
 								<li><a href="${pageContext.request.contextPath }/modifyBlogInfo.do?type=gotoModifyBlogInfo">修改信息</a></li>
 								<li><a href="${pageContext.request.contextPath }/forgetPassword.do?type=gotoFindMyPassword">修改密码</a></li>
 								<li class="divider"></li>
-								<li><a href="#">写博客</a></li>
+								<li><a href="${pageContext.request.contextPath }/userArticle.do?type=gotoWriteBlogUI&userId=${loginUserInfo.userId }">写博客</a></li>
 							</ul>
 						</li>
 					</c:if>

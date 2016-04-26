@@ -41,6 +41,7 @@ public class SearchAction extends DispatchAction {
 	private void prepareShowSearchInfo(HttpServletRequest request,
 			String searchKey, int pageNow, int pageSize) {
 		List<Article> searchArticles = articleService.getArticleBySearchKeyByPage(searchKey, pageNow, pageSize);
+		
 		request.setAttribute("searchArticles", searchArticles);
 		
 		int pageCount = articleService.getArticlePageCountBySearchKey(searchKey, pageSize);

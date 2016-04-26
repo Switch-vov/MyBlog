@@ -16,7 +16,7 @@
 	<div class="container-fluid">
 		<%-- 引入页头  --%>
 		<jsp:include page="/WEB-INF/public/head.jsp" />
-		
+		<input type="hidden" id="hiddenSearchKey" value="${searchKey }" />
 		<!-- 主体 -->
 		<div class="row" style="background:url(${pageContext.request.contextPath }/resource/images/body_bg.jpg);">
 			<br/>
